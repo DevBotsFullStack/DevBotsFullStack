@@ -72,7 +72,23 @@ h1,h2,h3,h4,h5,h6{
     background-color: #fff;
 }
 
+.intro__o_nas {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+}
 
+.intro__o_nas:after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    
+    margin: 60px auto 60px;
+    background-color: #fff;
+}
 
 /* Header */
 .header {
@@ -172,7 +188,6 @@ h1,h2,h3,h4,h5,h6{
     vertical-align: top;
     margin: 0 10px;
     position: relative;
-    
 }
 
 .text_by:hover {
