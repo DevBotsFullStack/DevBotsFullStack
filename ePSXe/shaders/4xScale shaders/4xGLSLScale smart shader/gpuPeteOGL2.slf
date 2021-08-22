@@ -1,0 +1,113 @@
+/*
+  4xGLSLScale Smart shader 
+
+           - Copyright (C) 2009 guest(r) - guest.r@gmail.com
+
+           - License: GNU-GPL  
+
+   
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+
+
+uniform sampler2D OGL2Texture;
+
+const vec3 dt = vec3(1.0,1.0,1.0);
+
+
+vec3 GLSL4xScale(vec3 c,vec3 o1,vec3 o2,vec3 o3, vec3 o4, vec3 i1,vec3 i2,vec3 i3, vec3 i4)
+{
+	float ko1=dot(abs(o1-c),dt);
+	float ko2=dot(abs(o2-c),dt);
+	float ko3=dot(abs(o3-c),dt);
+	float ko4=dot(abs(o4-c),dt);
+
+	float k1=min(dot(abs(i1-i3),dt),dot(abs(o1-o3),dt));
+	float k2=min(dot(abs(i2-i4),dt),dot(abs(o2-o4),dt));
+
+	float w1 = k2; if(ko3<ko1) w1 = 0.0;
+	float w2 = k1; if(ko4<ko2) w2 = 0.0;
+	float w3 = k2; if(ko1<ko3) w3 = 0.0;
+	float w4 = k1; if(ko2<ko4) w4 = 0.0;
+
+	return (w1*o1+w2*o2+w3*o3+w4*o4+0.001*c)/(w1+w2+w3+w4+0.001);
+}
+
+
+void main()
+{
+
+	// Calculating texel coordinates
+	
+	vec2 size     = vec2(4096.0,2048.0);
+	vec2 inv_size = vec2(1.0/4096.0, 1.0/2048.0);
+
+	vec2 OGL2Pos = gl_TexCoord[0].xy*size;
+	vec2 dx  = vec2(inv_size.x,0.0);
+	vec2 dy  = vec2(0.0,inv_size.y);
+
+	vec2 start_crd = floor(OGL2Pos)*inv_size;
+
+	vec2 pos = fract(OGL2Pos);
+	vec2 offset = floor(pos);
+	vec2 fp  = fract(pos);    
+
+	// Reading the texels
+
+	vec3 c00 = texture2D(OGL2Texture,start_crd + offset                  ).xyz;
+	vec3 c10 = texture2D(OGL2Texture,start_crd + offset +     dx         ).xyz;
+	vec3 c40 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx         ).xyz;
+	vec3 c50 = texture2D(OGL2Texture,start_crd + offset + 5.0*dx         ).xyz;
+
+	vec3 c01 = texture2D(OGL2Texture,start_crd + offset +              dy).xyz;
+	vec3 c11 = texture2D(OGL2Texture,start_crd + offset +     dx +     dy).xyz;
+	vec3 c21 = texture2D(OGL2Texture,start_crd + offset + 2.0*dx +     dy).xyz;
+	vec3 c31 = texture2D(OGL2Texture,start_crd + offset + 3.0*dx +     dy).xyz;
+	vec3 c41 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx +     dy).xyz;
+	vec3 c51 = texture2D(OGL2Texture,start_crd + offset + 5.0*dx +     dy).xyz;
+
+	vec3 c12 = texture2D(OGL2Texture,start_crd + offset +     dx + 2.0*dy).xyz;
+	vec3 c22 = texture2D(OGL2Texture,start_crd + offset + 2.0*dx + 2.0*dy).xyz;
+	vec3 c32 = texture2D(OGL2Texture,start_crd + offset + 3.0*dx + 2.0*dy).xyz;
+	vec3 c42 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx + 2.0*dy).xyz;
+
+	vec3 c13 = texture2D(OGL2Texture,start_crd + offset +     dx + 3.0*dy).xyz;
+	vec3 c23 = texture2D(OGL2Texture,start_crd + offset + 2.0*dx + 3.0*dy).xyz;
+	vec3 c33 = texture2D(OGL2Texture,start_crd + offset + 3.0*dx + 3.0*dy).xyz;
+	vec3 c43 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx + 3.0*dy).xyz;
+
+	vec3 c04 = texture2D(OGL2Texture,start_crd + offset +          4.0*dy).xyz;
+	vec3 c14 = texture2D(OGL2Texture,start_crd + offset +     dx + 4.0*dy).xyz;
+	vec3 c24 = texture2D(OGL2Texture,start_crd + offset + 2.0*dx + 4.0*dy).xyz;
+	vec3 c34 = texture2D(OGL2Texture,start_crd + offset + 3.0*dx + 4.0*dy).xyz;
+	vec3 c44 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx + 4.0*dy).xyz;
+	vec3 c54 = texture2D(OGL2Texture,start_crd + offset + 5.0*dx + 4.0*dy).xyz;
+
+	vec3 c05 = texture2D(OGL2Texture,start_crd + offset          + 5.0*dy).xyz;
+	vec3 c15 = texture2D(OGL2Texture,start_crd + offset +     dx + 5.0*dy).xyz;
+	vec3 c45 = texture2D(OGL2Texture,start_crd + offset + 4.0*dx + 5.0*dy).xyz;
+	vec3 c55 = texture2D(OGL2Texture,start_crd + offset + 5.0*dx + 5.0*dy).xyz;
+
+
+	vec3 ul = GLSL4xScale (c22, c00, c40, c44, c04, c11, c31, c33, c13);
+	vec3 ur = GLSL4xScale (c32, c10, c50, c54, c14, c21, c41, c43, c23);
+	vec3 dl = GLSL4xScale (c23, c01, c41, c45, c05, c12, c32, c34, c14);
+	vec3 dr = GLSL4xScale (c33, c11, c51, c55, c15, c22, c42, c44, c24);
+
+   
+	gl_FragColor.xyz = (dr*fp.x+dl*(1-fp.x))*fp.y+(ur*fp.x+ul*(1-fp.x))*(1-fp.y);
+}
+

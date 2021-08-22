@@ -1,0 +1,2 @@
+LQ version of Guest's Smart Shader. Nice for those with weak cards/IGPs.
+http://forums.ngemu.com/psx-plugin-questions-troubleshooting/76098-links-guides-custom-shaders-petes-opengl2-plugin-11.html#post1759671

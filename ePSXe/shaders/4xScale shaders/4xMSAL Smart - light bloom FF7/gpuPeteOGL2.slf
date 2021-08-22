@@ -1,0 +1,109 @@
+/*
+   4xMSAL smart shader (a.k.a. FF7 light bloom)
+
+   ***Prefered to use with high internal resolutions and texture filtering lvl. 2***	
+ 
+   Copyright (C) 2010 guest(r) - guest.r@gmail.com
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+ 
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+uniform sampler2D OGL2Texture;
+
+void main()
+{
+    vec3 dt=vec3(1.0,1.0,1.0);
+    vec3 u,d,r,l; float m1,m2;
+ 
+    vec3 c10 = texture2D(OGL2Texture, gl_TexCoord[1].xy).xyz;
+    vec3 c12 = texture2D(OGL2Texture, gl_TexCoord[1].xz).xyz;
+    vec3 c14 = texture2D(OGL2Texture, gl_TexCoord[1].xw).xyz;
+    vec3 c30 = texture2D(OGL2Texture, gl_TexCoord[2].xy).xyz;
+    vec3 c32 = texture2D(OGL2Texture, gl_TexCoord[2].xz).xyz;
+    vec3 c34 = texture2D(OGL2Texture, gl_TexCoord[2].xw).xyz;
+    vec3 c01 = texture2D(OGL2Texture, gl_TexCoord[3].yx).xyz;
+    vec3 c21 = texture2D(OGL2Texture, gl_TexCoord[3].zx).xyz;
+    vec3 c41 = texture2D(OGL2Texture, gl_TexCoord[3].wx).xyz;
+    vec3 c03 = texture2D(OGL2Texture, gl_TexCoord[4].yx).xyz;
+    vec3 c23 = texture2D(OGL2Texture, gl_TexCoord[4].zx).xyz;
+    vec3 c43 = texture2D(OGL2Texture, gl_TexCoord[4].wx).xyz;
+
+    m1=dot(abs(c10-c32),dt)+0.001;
+    m2=dot(abs(c30-c12),dt)+0.001;
+    u=(m2*(c10+c32)+m1*(c30+c12))/(m1+m2);
+ 
+    m1=dot(abs(c14-c32),dt)+0.001;
+    m2=dot(abs(c34-c12),dt)+0.001;
+    d=(m2*(c14+c32)+m1*(c34+c12))/(m1+m2);
+ 
+    m1=dot(abs(c01-c23),dt)+0.001;
+    m2=dot(abs(c21-c03),dt)+0.001;
+    l=(m2*(c01+c23)+m1*(c21+c03))/(m1+m2);
+
+    m1=dot(abs(c21-c43),dt)+0.001;
+    m2=dot(abs(c41-c23),dt)+0.001;
+    r=(m2*(c21+c43)+m1*(c41+c23))/(m1+m2);
+ 
+    vec3 c11 = 0.125*(u+d+r+l);
+ 
+    vec2 inv_size = vec2(0.00048828125, 0.0009765625);
+
+    vec2 dx  = vec2(inv_size.x,0.0);
+    vec2 dy  = vec2(0.0,inv_size.y);
+    vec2 g1  = vec2( inv_size.x,inv_size.y);
+    vec2 g2  = vec2(-inv_size.x,inv_size.y);
+    vec2 pC4 = gl_TexCoord[0].xy;
+ 
+    // Reading the texels
+ 
+    vec3 C0 = texture2D(OGL2Texture,pC4-g1).xyz; 
+    vec3 C1 = texture2D(OGL2Texture,pC4-dy).xyz;
+    vec3 C2 = texture2D(OGL2Texture,pC4-g2).xyz;
+    vec3 C3 = texture2D(OGL2Texture,pC4-dx).xyz;
+    vec3 C4 = texture2D(OGL2Texture,pC4   ).xyz;
+    vec3 C5 = texture2D(OGL2Texture,pC4+dx).xyz;
+    vec3 C6 = texture2D(OGL2Texture,pC4+g2).xyz;
+    vec3 C7 = texture2D(OGL2Texture,pC4+dy).xyz;
+    vec3 C8 = texture2D(OGL2Texture,pC4+g1).xyz;
+ 
+    vec3 mn1 = min(min(C0,C1),C2);
+    vec3 mn2 = min(min(C3,C4),C5);
+    vec3 mn3 = min(min(C6,C7),C8);
+    vec3 mx1 = max(max(C0,C1),C2);
+    vec3 mx2 = max(max(C3,C4),C5);
+    vec3 mx3 = max(max(C6,C7),C8);
+ 
+    mn1 = min(min(mn1,mn2),mn3);
+    mx1 = max(max(mx1,mx2),mx3);
+ 
+    vec3 dif1 = abs(c11-mn1) + 0.001*dt;
+    vec3 dif2 = abs(c11-mx1) + 0.001*dt;
+ 
+    float filterparam = 2.0; 
+ 
+    // vec3 dif = mx1-mn1;    
+    // float filterparam = clamp(4.5*max(dif.x,max(dif.y,dif.z)),1.0,2.1);
+ 
+
+    dif1=vec3(pow(dif1.x,filterparam),pow(dif1.y,filterparam),pow(dif1.z,filterparam));
+    dif2=vec3(pow(dif2.x,filterparam),pow(dif2.y,filterparam),pow(dif2.z,filterparam));
+ 
+    c11.r = (dif1.x*mx1.x + dif2.x*mn1.x)/(dif1.x + dif2.x);
+    c11.g = (dif1.y*mx1.y + dif2.y*mn1.y)/(dif1.y + dif2.y);
+    c11.b = (dif1.z*mx1.z + dif2.z*mn1.z)/(dif1.z + dif2.z);
+ 
+    float k1 = length(c11);
+    gl_FragColor.xyz = 0.35*c11 + 0.65*mix(k1,normalize(vec2(k1*k1,0.82)).x*1.74,0.577*k1)*normalize(c11);
+} 

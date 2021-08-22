@@ -1,0 +1,4 @@
+[Settings]
+RegFiles=_default.reg|_MYpad.reg|
+//          VideoPlugin    pecVideoPlugin
+VideoPlugin=gpupec.dll|gpupeteD3D.dll|

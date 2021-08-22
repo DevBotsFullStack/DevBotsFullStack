@@ -1,0 +1,4 @@
+[Settings]
+RegFiles=_default.reg|_paddefault.reg|ultrahigh.reg|
+//          VideoPlugin    pecVideoPlugin
+VideoPlugin=gpuPeteOpenGL2.dll|gpuPeteOpenGL2.dll|

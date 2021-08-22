@@ -1,0 +1,57 @@
+uniform vec4 OGL2Param;
+uniform vec4 OGL2Size;
+uniform vec4 OGL2InvSize;
+uniform sampler2D tex0;
+
+float CLength(vec4 c1)
+{
+float rmean = c1.x*0.5;
+c1*= c1;
+return sqrt((2.0+rmean)*c1.x+4.0*c1.y+(3.0-rmean)*c1.z);//3.0;
+}
+
+void main (void)
+{     
+float tl = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2(-1.0,-1.0)));   // top left
+float  l = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2(-1.0, 0.0)));   // left
+float bl = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2(-1.0, 1.0)));   // bottom left
+float  t = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2( 0.0,-1.0)));   // top
+vec4   c = texture2D(tex0, gl_TexCoord[0].st);                                             // center
+float  b = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2( 0.0, 1.0)));   // bottom
+float tr = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2( 1.0,-1.0)));   // top right
+float  r = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2( 1.0, 0.0)));   // right
+float br = CLength(texture2D(tex0, gl_TexCoord[0].st + OGL2Param.xy * vec2( 1.0, 1.0)));   // bottom right
+
+// Compute dx using Sobel:
+//           -1 0 1 
+//           -2 0 2
+//           -1 0 1
+
+float dX = (tr + 2*r + br -tl - 2*l - bl);
+
+// Compute dy using Sobel:
+//          -1 -2 -1 
+//           0  0  0
+//           1  2  1
+
+float dY = (bl + 2*b + br -tl - 2*t - tr);
+
+// Build the normalized normal
+
+float normalStrength = 8.0;
+
+vec3 normal = normalize(vec3(dX, 1.0 / normalStrength, dY)) * 0.5 + 0.5;
+
+// Determine where the light is positioned (this can be set however you like)  
+
+vec3 light_pos = normalize(vec3(0.5, 1.5, 0.5));  
+
+// Calculate the lighting diffuse value  
+
+float diffuse = max(dot(normal, light_pos),0.0);  
+ 
+// Set the output color of our current pixel  
+
+gl_FragColor = diffuse * c;
+}
+

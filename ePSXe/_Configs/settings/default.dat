@@ -1,0 +1,4 @@
+[Settings]
+RegFiles=_default.reg|_paddefault.reg|
+//          VideoPlugin    pecVideoPlugin
+VideoPlugin=gpuPeteD3D.dll|gpuPeteD3D.dll|

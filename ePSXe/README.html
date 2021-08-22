@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<title>Сборка ePSXe от Rikimaru</title>
+<style type="text/css">
+<!--
+body {
+	background: #909090;
+	color: #000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+#maincontainer {
+	width: 800px;
+	margin: 1% auto;
+}
+#logo {
+	font-weight: bold;
+	color: #FFF;
+	background-color: #354463;
+	border: 1px solid #000;
+	margin: 0;
+	padding: 0;
+	font-size: 10pt;
+	font-family: "Courier New", Courier, monospace;
+}
+#logo pre {
+	margin: 0 3pt;
+	padding: 0;
+}
+#footer {
+	color: white;
+	background: #354463;
+	border: 1px solid #000;
+	margin: 0;
+	padding: 2pt;
+	font-size: 10pt;
+	text-align: center;
+	overflow:hidden;
+}
+#footer a {
+	color: white;
+}
+a:hover {
+	text-decoration: none;
+}
+#menu {
+	color: #FFF;
+	background: #5F7797;
+	border: 1px solid #000;
+	margin: 3pt 0 0 0;
+	padding: 1pt;
+	font-size: 10pt;
+	font-family: Tahoma, Geneva, sans-serif;
+	text-align: center;
+}
+#menu a {
+	color: #FFF;
+	text-decoration: none;
+}
+#menu a:hover {
+	text-decoration: underline;
+}
+#content {
+	margin: 3pt 0;
+	padding: 0;
+	background-color: #F9F9F9;
+	border: 1px solid #000;
+}
+p {
+	margin: 0 4pt 6pt 6pt;
+	padding: 0;
+}
+h3 {
+	font-size: 14pt;
+	margin: 3pt 0pt 2pt 6pt;
+	padding: 0;
+}
+strong {
+	white-space: nowrap;
+}
+ul {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+dl {
+	margin: 8px;
+}
+dt {
+	font-size: larger;
+	font-weight: bold;
+	margin-top: 4px;
+}
+dd {
+}
+.totop {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 11pt;
+	text-align: right;
+	padding-right: 12pt;
+}
+.totop a {
+	color: #354463;
+	text-decoration: none;
+}
+.totop a:hover {
+	text-decoration: underline;
+}
+.deftable {
+	background: #000;
+	color: #FFF;
+	margin: auto;
+}
+.deftable th {
+	background: #5F7797;
+	font-weight: normal;
+	text-align: left;
+}
+.deftable td {
+	background: #354463;
+	font-weight: bold;
+}
+.btnLink {
+	display:block;
+	float:right;
+	margin:3px;
+	padding:3px;
+	border:1px dashed white;
+	color:white;
+	text-align:center;
+	text-decoration:none;
+}
+.btnLink:hover {
+	border:1px solid white;
+}
+-->
+</style>
+</head>
+<body>
+<div id="maincontainer">
+  <div id="logo"><!--  <a href="http://psxemul.narod.ru/?referrer=epsxereadme" title="Игры PlayStation на компьютере!" class="btnLink"><img src="http://psxemul.narod.ru/imgs/psxemulbtn.png" border="0" height="31" width="88" alt=".: PSXemul"><br />официальный сайт</a> --> 
+    <a href="http://nesonline.am9.ru/?referrer=epsxereadme" target="_blank" class="btnLink"><img src="http://nesonline.am9.ru/images/mybtn.gif" width="88" height="31" border="0" alt=".: NESonline" title="Поиграйте в свои любимые игры детства Денди онлайн!" style=" vertical-align:middle" /><br />
+    игры денди онлайн</a>
+    <pre>
+__________.__ __   .__
+\______   \__|  | _|__| _____ _____ _______ __ __ 
+ |       _/  |  |/ /  |/     \\__  \\_  __ \  |  \
+ |    |   \  |    &lt;|  |  Y Y  \/ __ \|  | \/  |  /
+ |____|_  /__|__|_ \__|__|_|  (____  /__|  |____/ 
+        \/        \/        \/     \/      
+       </pre>
+    <div style="text-align:right; margin-top:-14px; padding-right:15px;"> 
+      <!--<iframe src="http://psxemul.narod.ru/readmecounter.html?version=174" frameborder="0" scrolling="no" style="float:left;border:none;width:500px;height:16px;overflow:hidden;"></iframe>--> 
+      Сборка ePSXe от Rikimaru v1.7.5</div>
+  </div>
+  <div id="menu"><a href="#install">Установка</a> | <a href="#hotkeys">Горячие&nbsp;клавиши</a> | <a href="#settings">Спецнастройки</a> | <a  href="#cheats">Читы</a> | <a href="#netplay">Сетевая игра</a> | <a href="#shaders">Шейдеры</a><br />
+    <a  href="#link">Ярлык к игре</a> | <a href="#epsxewrapper">ePSXe Wrapper</a> | <a href="#faq"><b>FAQ</b></a> | <a  href="#changelog">История&nbsp;изменений</a> | <a  href="#footer">Копирайт</a></div>
+  <div id="content">
+    <p>Данная сборка включает в себя лучший на сегодняшний день эмулятор PlayStation - <strong>ePSXe 1.7.0</strong>, различные плагины, биосы, и самое главное - он уже оптимально настроен и включает фиксы для игр, имеющих некоторые проблемы с эмуляцией со стандартными настройками. Плюс в данную сборку включен плагин, позволяющий играть по сети в ePSXe, и настроенный плагин для использования читов.</p>
+    <h3 id="install">Установка</h3>
+    <p>Для установки запустите файл и следуйте инструкции. Для лучшей совместимости с <em>Windows Vista/7</em>, не устанавливайте программу в <em>Program Files</em>. Если вы обновляетесь с предыдущей версии, удалите все папки в директории ePSXe, кроме <em>memcards</em> и <em>sstates</em> (на запрос о замене <em>epsxe000.mcr</em> и <em>epsxe001.mcr</em> ответьте <em>нет</em>).</p>
+    <p>После установки на рабочем столе и в меню Пуск &gt; Программы появятся ярлыки к ePSXe.</p>
+    <p>По умолчанию управление следующее: <br />
+    </p>
+    <table border="0" cellspacing="1" cellpadding="3" class="deftable">
+      <tr>
+        <th>Вперед</th>
+        <td>W</td>
+        <th>Треугольник</th>
+        <td>Numpad 8</td>
+      </tr>
+      <tr>
+        <th>Назад</th>
+        <td>S</td>
+        <th>L1</th>
+        <td>E</td>
+      </tr>
+      <tr>
+        <th>Влево</th>
+        <td>A</td>
+        <th>L2</th>
+        <td>Q</td>
+      </tr>
+      <tr>
+        <th>Вправо</th>
+        <td>D</td>
+        <th>R1</th>
+        <td>Numpad 7</td>
+      </tr>
+      <tr>
+        <th>Крест</th>
+        <td>Numpad 5</td>
+        <th>R2</th>
+        <td>Numpad 9</td>
+      </tr>
+      <tr>
+        <th>Квадрат</th>
+        <td>Numpad 4</td>
+        <th>Start</th>
+        <td>Левый Shift</td>
+      </tr>
+      <tr>
+        <th>Круг</th>
+        <td>Numpad 6</td>
+        <th>Select</th>
+        <td>Левый Ctrl</td>
+      </tr>
+    </table>
+    <p>Переназначить кнопки или настроить геймпад можно в <em>Config &gt; Game Pad &gt; Port 1 &gt; Pad 1</em>. Там же можно поставить вибрацию (Rumble): Type: DX Joy1 (для первого геймпада в ОС).</p>
+    <p>Чтобы запустить игру, в ePSXe нажмите <em>File &gt; Run ISO<sup>1</sup> (или нажмите на иконку в Wrapper)</em> и выберите образ игры или <em>File &gt; Run CDROM</em> <em> (или нажмите на иконку в Wrapper)</em> для запуска с диска. Про смену диска читайте в <a href="#faq">FAQ</a>.</p>
+    <p>При запуске с диска предполагается, что диск в первом приводе. Если у вас несколько приводов, и вы хотите запускать игры не с первого, то выберите привод в <em>Config &gt; CDROM &gt; Configure: Drive Selection</em>.</p>
+    <p><sup>1</sup> Хоть эмулятор и предлагает выбрать образ в <em>mds/mdf</em> формате, большинство из них он не читает. Переконвертируйте образ в <em>cue/bin</em>. Или монтируйте образ в виртуальный привод.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="hotkeys">Горячие клавиши</h3>
+    <table border="0" cellspacing="1" cellpadding="3" class="deftable">
+      <tr>
+        <th scope="row">Прекратить эмуляцию</th>
+        <td>Esc</td>
+      </tr>
+      <tr>
+        <th scope="row">Быстрое сохранение *</th>
+        <td>F1</td>
+      </tr>
+      <tr>
+        <th scope="row">Быстрая загрузка</th>
+        <td>F3</td>
+      </tr>
+      <tr>
+        <th scope="row">Сменить слот</th>
+        <td>F2</td>
+      </tr>
+      <tr>
+        <th scope="row">Быстрая прокрутка **</th>
+        <td>+</td>
+      </tr>
+      <tr>
+        <th scope="row">Пауза</th>
+        <td>&ndash;</td>
+      </tr>
+      <tr>
+        <th scope="row">Полноэкранный /<br />
+          оконный режим</th>
+        <td>Alt+Enter</td>
+      </tr>
+    </table>
+    <p>* Быстрое сохранение/загрузка не работают с играми &quot;несколько на одном диске&quot;.</p>
+    <p>** Для работы &quot;быстрой прокрутки&quot; сначала, возможно, потребуется нажать F4. Также она не работает в плагине OpenGL1.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="settings">Спецнастройки</h3>
+    <p>Если вы не используете ePSXe Wrapper, то вам нужно запускать спецнастройки для некоторых игр самостоятельно.</p>
+    <p>В папке <strong>_Configs</strong> также находятся настройки для игр, имеющих некоторые проблемы с эмуляцией со стандартными настройками. Просто запустите файл с названием игры и действуйте как обычно. По окончании игры просто закройте ePSXe, консольное окно закроется автоматически. Не закрывайте консольное окно самостоятельно! Это приведет к тому, что настройки от конкретной игры останутся по умолчанию.</p>
+    <p>Пояснения для некоторых настроек:</p>
+    <p><strong>2D games</strong> - уменьшает болчность для двухмерных игр.<br />
+      <em>Если позволяют ресурсы, лучше использовать видеоплагин OGL2 и шейдер 4xMSAL.</em><br />
+      <em>Примеры игр:</em> Oddworld, Castlevania: SOTN, многие RPG.<br />
+      Устанавливается самый совместимый софтовый плагин, так что если игра не пойдет с этой настройкой, вряд ли она вообще пойдет. Вы также можете переключиться на софтовый плагин в любой момент клавишей F7 и не использовать эту настройку.</p>
+    <p><strong>CDDA Music</strong> - для игр с музыкой в виде аудиотреков. Открывайте <em>cue/ccd</em>!<br />
+      <em>Примеры игр:</em> Dead or Alive, Tomb Raider, Twisted Metal.<br />
+      <em>Дополнительная информация</em>. При применении данной настройки устанавливается плагин аудиоплагин SPU Core, он не используется по умолчанию, потому что другие плагины дают лучшее качество звука. Можно получить звук в таких играх, не используя эту настройку, а монтируя образ в эмуляторе привода (Alhohol 120% или Daemon Tools) и запуская как диск. Вы также можете получить звук в таких играх используя <em>Mooby2 CD Disc Image Driver</em> (в оне выбора образа - на уровень вверх - <strong>../</strong>, выбор диска - <strong>Alt+F</strong>).</p>
+    <p> <strong>3D с 2D фоном</strong> - лучше всего подходит для 3D игр с 2D фоном: может повысить читабельность текста, убрать обводку спрайтов (в некоторых играх), уменьшить блочность фона, но увеличивает его [фона] пикселизацию.<br />
+      <em>Примеры игр:</em> Parasite Eve.</p>
+    <p> <strong>GunCon</strong> - устанавливает первым контроллером GunCon/Digital, можно сменить на Digital pad с помощью F5. Работает только в играх, поддерживающих его!<br />
+      <em>Примеры игр:</em> Resident Evil: Survivor, серия Point Blank.</p>
+    <p> <strong>Mouse</strong> - устанавливает первым контроллером Мышь/Digital, можно сменить на Digital pad с помощью F5. Работает только в играх, поддерживающих её!<br />
+      <em>Примеры игр: </em>Quake 2.</p>
+    <p> Узнать какие контроллеры поддерживает игра можно, например, по официальной задней обложке, найти которые можно, например, на <a href="http://www.cdcovers.cc/covers" target="_blank">cdcovers.cc</a>.</p>
+    <p> <strong>ExtOffsreen + SoftFB</strong> - применяйте для игр у которых отсутсвует некоторые экраны, меню. Не включена по умолчанию, потому что может вызвать мерцание объектов или мусор на экране в некоторых играх. Также устанавливается самая совместимая софтовая реализация framebuffer. Может исправить неправильное отображение спецэффектов в игре.<br />
+      <em>Примеры игр: </em>Bushido Blade 2 (экран загрузки), Tenchu (спрайт &quot;PAUSE&quot;), Resident Evil (Software FB).<br />
+      <em>Нужна только на стандартной установке (D3D или OGL1 виодеплагин).</em></p>
+    <p> <strong>NetPlay</strong> - альтернатива NetPlay.exe</p>
+    <p><strong>Final Fantasy 7</strong> - убирает зеленый обвод текстур.<br />
+      Настройку следует применять при всех видах установки (стандартный (D3D, OGL1), High (OGL2), Ultra High (OGL2)).</p>
+    <p><strong>Final Fantasy 8</strong> - настройку следует применять при всех видах установки.</p>
+    <p><strong>Final Fantasy 9</strong> - настройка нужна только для стандартной установки (D3D, OGL1).</p>
+    <p><strong>Legend of Dragoon, Lunar</strong> - настройку следует применять при всех видах установки.</p>
+    <p><strong>Xenogears</strong> - небольшие поправки изображения. Действует для всех установок.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="cheats">Читы</h3>
+    <p>Чтобы использовать читы в игре, выберите в качеcтве видеоплагина (<em>Config &gt; Video</em>) <strong>psx emulation cheater</strong>. При&nbsp;игре нажмите <strong>Ctrl+G</strong>: откроется PEC. Выберите игру текущую эмулируемую игру из списка (региона игры) и коды для неё. Нажмите <strong>Send Cheats to Plugin</strong>. Чтобы убрать коды откройте PEC (<strong>Ctrl+G</strong>) и нажмите <strong>Deactivate Cheating</strong>.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="netplay">Игра по сети</h3>
+    <p>Сначала выберите того, кто будет сервером. Лучше это будет тот, у кого больше скорость отдачи. Так как для игры по сети используется предыдущая версия ePSXe<sup>1</sup>, у которой настройки управления отличаются от версии 1.7, вам придется настроить управление в этой версии (если вы, конечно, его хотите изменить с настройки по умолчалнию <sup><a href="#install">*</a></sup>). Для этого запустите <strong>epsxe160.exe</strong>, находящийся в корневой папке ePSXe, и настройте управление, после чего закройте приложение. При игре по сети игра идет в окне (для возможности коммуникации игроков), так что вам, возможно, нужно  поменять размер окна в <em>Config &gt; Video &gt; Configure &gt; Window size</em> (по умолчанию 1024x768).</p>
+    <p><strong>Инструкция для игрока-сервера:</strong></p>
+    <p>Запустите <strong>NetPlay</strong>.exe. Выберите игру (у вас обоих должен быть одинаковый образ вплоть до CRC), появится окно клиента kaillera p2p. Выберите вкладку <strong>Host</strong> и в ней игру, после чего нажмите кнопку <strong>Host</strong>. Отправьте ваш IP адрес второму игроку<sup>2</sup> (он автоматически скопирован в буфер обмена). Поставьте галочку <strong>click here when ready</strong> в окне <em>Connection window</em>, когда будете готовы к началу игры.</p>
+    <p><strong>Инструкция для игрока-клиента:</strong></p>
+    <p>Запустите <strong>NetPlay</strong>.exe<strong></strong>. Выберите игру, появится окно клиента kaillera p2p. Выберите вкладку <strong>Connect</strong> и вставьте IP адрес сервера, после чего нажмите кнопку <strong>Connect</strong>. Поставьте галочку <strong>click here when ready</strong> в окне <em>Connection window</em>, когда будете готовы к началу игры.</p>
+    <p>Esc во время игры - выход из эмулятора. Если в окне kaillera p2p появилась надпись <em>Synchronizing players</em>, то произошла потеря синхронизации: придется все начать заново. Если происходит потеря синхронизации попробуйте увеличить <em>Smoothing</em>. При игре по сети устанавливается карта памяти <em>netplay.mcr</em> в которую входят сохранения полностью пройденных игр: Bloody Roar 2, Bushido Blade 2, Crash Bash, Crash Team Racing, Dead or Alive, Soul Blade, Tekken 3, WWF Smackdown 2.</p>
+    <p>Сетевая игра через <a href="http://en.wikipedia.org/wiki/PlayStation_Link_Cable" target="_blank">PlayStation Link Cable</a> не поддерживается.</p>
+    <p><sup>1</sup> В ePSXe 1.7 в некоторых играх есть проблемы с управлением при игре по сети.<br />
+      <sup>2</sup> В некоторых системах IP адрес может определиться неправильно. В этом случае нажмите кнопку <strong>whatismyip</strong> в окне <em>Connection window</em> и скопируйте (Ctrl+C) IP адрес. </p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="shaders">Шейдеры</h3>
+    <p>С помощью шейдеров вы можете улучшить или изменить до неузнаваемости графику игры. Использование шейдеров доступно только на OpenGL2 плагине (выберите в <em>Config &gt; Video</em>), и они требуют довольно мощной видеокарты. Чтобы установить шейдер, зайдите в папку <em>shaders</em>, находящуюся в папке ePSXe. Там шейдеры рассортированы по нескольким категориям. Чтобы установить шейдер выберите его в одной из этих категорий и перетащите его папку на иконку файла &quot;<strong>Установить шейдер</strong>.cmd&quot;. Интенсивность шейдера можно задать в <em>Config &gt; Video &gt; (Pete's OpenGL2) &gt; Shader level (в Fullscreen filters)</em>. Чтобы отключить шейдер, просто запустите любой из файлов &quot;<strong>Установить шейдер</strong>.cmd&quot;</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="link">Ярлык к игре</h3>
+    <p> Чтобы сделать ярлык к игре, просто создайте ярлык к <strong>ePSXe.exe</strong> с параметрами <em style="white-space: nowrap">-nogui -loadbin &quot;путь_до_игры&quot;</em>. Можно также для конкретной игры установить специальную карту памяти - просто добавьте в ярлык параметр <em style="white-space: nowrap">-loadmemc0 &quot;путь_до_кп&quot;</em>. Ярлык для игры со спецнастройками делается точно так же, только не к ePSXe.exe, а к файлу настроек игры (<em>*.cmd</em>).</p>
+    <p>Учтите, что при таком способе запуска ePSXe вы лишаетесь его графического интерфейса, и нажатие кнопки <em>Esc</em> приведет к выходу из эмулятора.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="epsxewrapper">ePSXe Wrapper</h3>
+    <p>ePSXe Wrapper - это &quot;обертка&quot; для ePSXe с быcтрым доступом к основным функциям: запуск образа, запуск с диска, выбор карты памяти, продолжение эмуляции. Также в Wrapper можно создать список игр и запускать из него, каждый раз не выбирая<em> File &gt; Run ISO</em> в ePSXe. Для запуска новой игры не нужно перезапускать Wrapper.</p>
+    <p>Можно искать игры в списке с помощью поля внизу. Напишите часть имени игры и нажмите иконку поиска или <em>Enter</em>. </p>
+    <p>Для запуска игры из списка щелните по ней 2 раза или выберите игру и нажмите <em>Shift+Enter</em>. </p>
+    <p>В Wrapper также есть автоматическая загрузка необходимых настроек для игры. Можно вписать игры в <em>cmn</em> (общие для нескольких игр) настройки. Для этого откройте список настроек, выберите игру, настройку и щелкните на иконку сохранения. Чтобы посмотреть как игра выглядит с той или иной настройкой, выберите игру и нажмите 2 раза по настройке с которой вы хотите запустить игру.</p>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="faq">FAQ</h3>
+    <dl>
+      <dt>Не работает смена диска (File &gt; Change Disc &gt; ISO)</dt>
+      <dd>В некоторых играх можно сохраниться в конце первого диска и загрузиться на втором (на&nbsp;Memory&nbsp;Card,&nbsp;<em>не</em>&nbsp;savestate!). Или проведите смену в диска в версии 1.6.0 (включен в сборку).</dd>
+      <dt>Удаление, копирование сейвов с карт памяти</dt>
+      <dd>Используйте утилиту <em>MemManager</em> в папке <em>memcards</em>. Или в ePSXe запустите BIOS (<em>File &gt; Run BIOS</em>).<br />
+        Если MemManager не запускается,  установите VB Runtime (Msvbvm50.exe в папке <em>memcards</em>).</dd>
+      <dt>Слишком быстро идут игры</dt>
+      <dd>Если у вас AMD Athlon X2, то установите AMD Dual-Core Optimizer.</dd>
+      <dt>Не показывает/глючит видео</dt>
+      <dd>Поставьте новые драйверы на видеокарту (<a href="http://www.nvidia.ru/page/link_download_drivers.html" target="_blank">NVIDIA</a>, <a href="http://ati.amd.com/support/driver.html" target="_blank">ATI</a>). Если не поможет, попробуйте поставить другой видеоплагин (OpenGL1, OpenGL2) в <em>Config &gt; Video</em>.</dd>
+      <dt>Заикается звук, рассыпаются видеоролики</dt>
+      <dd>Попробуйте поставить другой аудиоплагин в <em>Config &gt; Sound</em>. Если игра с аудиотреками, используйте CD-ROM плагин <em>Mooby2 CD Disc Image Driver</em> (на уровень вверх - <strong>../</strong>, выбор диска - <strong>Alt+F</strong>).<br />
+        Проверьте образ на ошибки с помощью CDMage. Откройте в нем образ (<em>File &gt; Open</em>) и нажмите <em>Action &gt; Scan For Corruption</em>. Если ошибки есть, попытайтесь их исправить с помощью <em>Action &gt; Repair Corrupted Sectors</em>. (<em>Примечание:</em> 150 &quot;желтых&quot; секторов в конце 1 трека это нормально). Если все же остались неисправленные сектора, посмотрите какие файлы повреждены с помощью <em>Action &gt; Locate Content of Sectors</em>: внизу на вкладке <em>Errors</em> в поле <em>Content of Sector</em> появятся названия поврежденных файлов. Стандартные файлы: <em>*.str</em> - видео, <em>*.xa</em> - аудио. Если ошибок нет, это еще не значит, что их <em>не было</em>. Образ могли восстановить, зануляя ошибки. Посмотреть контрольные суммы оригинальных образов можно на <a href="http://redump.org/" target="_blank">redump.org</a>.</dd>
+      <dt>Неправильно отображаюся спецэффекты</dt>
+      <dd>Попробуйте запустить с настройкой <strong>ExtOffsreen + SoftFB</strong> (cmd или в Wrapper). Добавьте игру в  настройку Wrapper, если с ней все нормально.</dd>
+      <dt>Включение антиалиасинга (FSAA)</dt>
+      <dd>FSAA можно принудительно включить в панели управления драйвером видеокарты (настройки будут применены для всех 3D приложений) или с помощью утилит, поддерживающих профили для игр (ATI Tray Tools например).</dd>
+      <dt>Глючит меню в NFS: Porsche Unleashed</dt>
+      <dd>Есть игры, которые глючат в эмуляторе версии  1.7.0. Используйте 1.6.0 (включен в сборку).</dd>
+      <dt>Как узнать регион диска</dt>
+      <dd>Откройте образ с помощью CDMage, например, и посмотрите имя исполняемого файла.<br />
+        SCUS/SLUS&nbsp;-&nbsp;NTSC U/C, SCES/SLES&nbsp;-&nbsp;PAL, SLPS/SCPS/SLPM&nbsp;-&nbsp;NTSC J.</dd>
+      <dt>Создание образа диска</dt>
+      <dd><strong>Alcohol 120%</strong>: <strong>Файл &gt; Создание образов</strong>. Выберите привод и нажмите <strong>Далее</strong>. На следующей вкладке выберите расположение образа и его название, в качестве формата образа выберите <strong>cue</strong> и нажмите <strong>Старт</strong>.</dd>
+      <dd><strong>ImgBurn</strong>: Выберите <strong>Create image from disc</strong>. В <em>Destination</em> нажмите на иконку <em>Browse for a file</em> и выберите имя образа, место для его сохранения и тип файла - <strong>bin</strong>. Нажмите кнопку <em>Read</em>.</dd>
+      <dd><strong>IsoBuster</strong>: Щелкните правой кнопкой мыши на CD, выберите <strong>Извлечь CD &gt; Raw</strong>, выберите имя образа, место для его сохранения и тип файла - <strong>bin</strong>.</dd>
+      <dd><strong>UltraISO</strong>: <strong>Файл &gt; Открыть CD/DVD</strong>. Выберите привод. Потом нажмите <strong>Файл &gt; Сохранить как</strong>, выберите имя образа, место для его сохранения и тип файла - <strong>bin</strong>.</dd>
+    </dl>
+    <div class="totop"><a href="#">Наверх</a></div>
+    <h3 id="changelog">История изменений</h3>
+    <p>v1.7.4 &rarr; v1.7.5</p>
+    <ul>
+      <li>Добавлены новые шейдеры, в том числе FXAA и ccomic</li>
+      <li>FXAA шейдер установлен по умолчанию в &quot;ультра&quot; конфигурации</li>
+      <li>Обновлены коды для PEC</li>
+    </ul>
+    <p>v1.7.3 &rarr; v1.7.4</p>
+    <ul>
+      <li>Исправлена работа NetPlay</li>
+      <li>Добавлена возможность создавать настройки игр с шейдерами (см. Final Fantasy 7 (4xMSAL), у Wrapper такая возможность уже была)</li>
+      <li>Добавлены несколько шейдеров</li>
+      <li>Обновлены коды для PEC</li>
+    </ul>
+    <p>v1.7.2 &rarr; v1.7.3</p>
+    <ul>
+      <li>Улучшено определение идентификатора игры в Wrapper</li>
+      <li>Изменен упаковщик Wrapper - нет ложных срабатываний антивирусов</li>
+      <li>Добавлен шейдер GLSmartTexMag</li>
+      <li>Обновлены коды для PEC</li>
+    </ul>
+    <p>v1.7.1 &rarr; v1.7.2</p>
+    <ul>
+      <li>Улучшена совместимость с Vista/7</li>
+      <li>Обновлены коды для PEC</li>
+      <li>Незначительные улучшения</li>
+    </ul>
+    <p>v1.2 &rarr; v1.7.1</p>
+    <ul>
+      <li>PEC теперь устанавливается правильно</li>
+      <li>Добавлена возможность отключить шейдер через <em>Установить шейдер.cmd</em></li>
+      <li>Исправлена ошибка в ePSXe Wrapper при поиске игр</li>
+      <li>Добавлено окно NetPlay.exe</li>
+      <li>Изменена нумерация версий (чтобы люди не думали, что версия сборки - это версия ePSXe)</li>
+    </ul>
+    <p>v1.1 &rarr; v1.2</p>
+    <ul>
+      <li>Переписан механизм спецнастроек игр.  Скрипт стал более функциональным да и просто более красивым =)</li>
+      <li>Переделан исталлятор</li>
+      <li>Добавлен ePSXe Wrapper (впринципе заменяет скриптовый  механизм =] )</li>
+      <li>Добавлены новые спецнастройки: 3D с 2D фоном, GunCon, Mouse, ExtOffsreen + SoftFB, Lunar</li>
+      <li>Добавлен manifest. Теперь кнопки, чекбоксы и т.п. в ePSXe имеют тему ОС.</li>
+      <li>Добавлены шейдеры</li>
+      <li>Изменен netplay.mcr (сохранение Bushido Blade 2)</li>
+      <li>Добавлен FAQ</li>
+      <li>Обновлен видеоплагин P.E.Op.S. OpenGL Driver</li>
+      <li>Обновлен CD-ROM плагин SaPu's CD-ROM Plugin</li>
+      <li>CD-ROM плагин по умолчанию теперь SaPu's CD-ROM Plugin<br />
+      </li>
+    </ul>
+    <p>v1.0 &rarr; v1.1</p>
+    <ul>
+      <li>Переход к sfx архиву с автоустановкой</li>
+      <li>Автоопределение разрешения экрана при установке</li>
+      <li>Переписаны настройки игр</li>
+      <li>Добавлена проверка выбран ли плагин PEC для спецнастроек</li>
+      <li>Устранена проблема с начальной настройкой PEC и русскими путями</li>
+      <li>Добавлена надстройка для игр с CDDA звуком (Dead or Alive например)</li>
+      <li>Аудиоплагин по умолчанию теперь P.E.Op.S. DSound</li>
+      <li>Исправлена ошибка с горячими клавишами (пересекались быстрая перемотка и R2)</li>
+      <li>Переработана сетевая игра</li>
+      <li>Добавлено автокопирование IP адреса в буфер обмена</li>
+      <li>Изменен netplay.mcr (отключено автосохранение у игр)</li>
+      <li>В сборку добавлен <em>MemManager</em> (в папке memcards)</li>
+      <li>В сборку добавлен <em>Moo's Savestate Tool</em></li>
+      <li>В сборку добавлен скрипт создания ярлыка</li>
+      <li>Улучшена документация</li>
+    </ul>
+    <div class="totop"><a href="#">Наверх</a></div>
+  </div>
+  <div id="footer">
+    <p><a href="http://nesonline.am9.ru/?referrer=epsxereadme" target="_blank" style="float:right" ><img src="http://nesonline.am9.ru/images/mybtn.gif" width="88" height="31" border="0" alt=".: NESonline" title="Поиграйте в свои любимые игры детства Денди онлайн!" /></a> 
+      <!--<a href="http://psxemul.narod.ru/?referrer=epsxereadme" title="Игры PlayStation на компьютере!"><img src="http://psxemul.narod.ru/imgs/psxemulbtn.png" border="0" height="31" width="88" alt=".: PSXemul" align="right"></a>--><strong>&copy; Rikimaru, 2008<script type="text/javascript">document.write('&ndash;'+new Date().getFullYear())</script></strong>;<br />
+      Копирование данного текста без указания источника запрещено. 
+  </div>
+</div>
+</body>
+</html>

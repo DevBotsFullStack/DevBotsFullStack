@@ -1,0 +1,1 @@
+http://forums.ngemu.com/psx-plugin-questions-troubleshooting/76098-links-guides-custom-shaders-petes-opengl2-plugin-10.html#post1714056

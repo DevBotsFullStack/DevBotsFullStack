@@ -1,0 +1,17 @@
+//Эта секция обязательна только для "cmn" настроек 
+[GameID]
+//Любая строка, главное чтобы был идентификатор игры SLUS-xxxxx, SLES-xxxxx и т.д.
+ID=Final Fantasy VII (U)(CD1)[SCUS-94163],(CD2)[SCUS-94164],(CD3)[SCUS-94165]; Final Fantasy VII (E)(CD1)[SCES-00867],(CD2)[SCES-10867],(CD3)[SCES-20867]
+[GameCfg]
+//Вносимые файлы реестра с настройками через "|". На конце "|" обязательно ставить! Файлы должны находиться в _Configs\settings
+RegFiles=FB_D3D,OGL_0,4.reg|Final Fantasy 7.reg|
+//имя плагина с расширением (начинаются с gpu)
+VideoPlugin=gpuPeteOpenGL2.dll
+//SPUCORE (встроенный плагин) или имя плагина с расширением (начинаются с spu)
+SoundPlugin=SPUCORE
+//... (встроенный плагин) или имя плагина с расширением (начинаются с cdr)
+CdromPlugin=cdrPeops.dll
+//DISABLED (отключен) или имя плагина с расширением
+NetPlugin=DISABLED
+//Digital, DualShock, Mouse, GunCon
+PadType=GunCon
